@@ -82,12 +82,14 @@ Corpus dùng cho benchmark: **12 file** trong `data/ecommerce/` (11 URL Help Cen
 Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 
-| Tài liệu | Chiến lược (Strategy)            | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
-| -------- | -------------------------------- | -------------- | ----------------- | ------------------------ |
-|          | FixedSizeChunker (`fixed_size`)  |                |                   |                          |
-|          | SentenceChunker (`by_sentences`) |                |                   |                          |
-|          | RecursiveChunker (`recursive`)   |                |                   |                          |
+| Tài liệu | Chiến lược (Strategy)            | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?                               |
+| -------- | -------------------------------- | -------------- | ----------------- | ------------------------------------------------------ |
+| 12 tài liệu trong `data/ecommerce/` | FixedSizeChunker (`fixed_size`) | 98 | 477,97 ký tự/chunk | Không giữ được ngữ cảnh, đôi lúc cắt ngang câu trả lời |
+|          | SentenceChunker (`by_sentences`) |                |                   |                                                        |
+|          | RecursiveChunker (`recursive`)   |                |                   |                                                        |
 
+
+Kết quả FixedSize: `chunk_size=500`, `overlap=50`, chạy trên phần nội dung sau YAML front matter và bỏ khoảng trắng ở đầu/cuối. Tổng 42.541 ký tự nội dung tạo 98 chunk; độ dài trung bình = tổng độ dài các chunk / 98 = **477,97 ký tự** (tính cả phần overlap). Chunk cuối mỗi tài liệu thường ngắn hơn 500 ký tự nên trung bình thấp hơn kích thước tối đa.
 
 ### Chiến lược của từng thành viên
 
@@ -127,11 +129,12 @@ chunks = chunker.chunk(body)  # body = phần markdown sau front matter
 ### So Sánh Giữa Các Thành Viên
 
 
-| Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
-| ---------- | --------------------- | -------------------- | --------- | -------- |
-|            |                       |                      |           |          |
-|            |                       |                      |           |          |
-|            |                       |                      |           |          |
+| Thành viên         | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
+| ------------------ | --------------------- | -------------------- | --------- | -------- |
+| Văn Quốc Dũng      | FixedSize Chunking    |                      |           |          |
+| Nguyễn Đức Thịnh   | Sentence Chunking     |                      |           |          |
+| Lương Sỹ Khánh     | Recursive Chunking    |                      |           |          |
+| Đào Quang Thái Anh | Semantic Chunking     |                      |           |          |
 
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
