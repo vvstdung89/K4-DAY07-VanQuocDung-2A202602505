@@ -117,9 +117,8 @@ chunks = chunker.chunk(body)  # body = phần markdown sau front matter
 **Thành viên 3 — Lương Sỹ Khánh**
 
 - **Loại chiến lược:** Recursive (`RecursiveChunker`, `chunk_size=500`, separators mặc định `["\n\n", "\n", ". ", " ", ""]`)
-- **Mô tả &amp; lý do chọn cho chủ đề này:** Cắt ở ranh giới "to" trước — `\n\n` là ranh giới giữa các mục của bài Help Center — nên mỗi chunk thường trọn một mục (`1.2. Thời gian tối đa...`, `2.2. Phí vận chuyển trả hàng`), chỉ khi mảnh vẫn quá 500 ký tự mới hạ xuống `\n` rồi `". "`. Chọn cho chủ đề này vì corpus Shopee là văn bản quy định phân mục rõ, đáp án luôn nằm gọn trong một mục; cắt cứng theo độ dài sẽ chẻ đôi bảng thời hạn 24 giờ / 15 ngày / 20 ngày. Bước **gom lên** quan trọng không kém bước đệ quy xuống: các file này đầy dòng ngắn (bullet, "Bước 1/2/3"), không gom thì sinh hàng trăm chunk vụn 5–10 ký tự và retrieval hỏng hẳn.
-- **Số liệu thực đo trên corpus 12 file:** 107 chunk, độ dài min 50 / max 496 / **trung bình 396 ký tự** — sát trần 500, tức bước gom hoạt động đúng.
-- **Code snippet (nếu custom):** Không custom class, nhưng phần `_split` / `_merge` trong `src/chunking.py` là tự viết (starter chỉ có `NotImplementedError`):
+- **Mô tả &amp; lý do chọn cho chủ đề này:** Cắt ở ranh giới "to" trước - `\n\n` là ranh giới giữa các mục của bài Help Center nên mỗi chunk thường trọn một mục, chỉ khi mảnh vẫn quá 500 ký tự mới hạ xuống `\n` rồi `". "`. Chọn cho chủ đề này vì corpus Shopee là văn bản quy định phân mục rõ, đáp án luôn nằm gọn trong một mục; cắt cứng theo độ dài sẽ chẻ đôi bảng thời hạn 24 giờ / 15 ngày / 20 ngày. Bước **gom lên** quan trọng không kém bước đệ quy xuống: các file này đầy dòng ngắn (bullet, "Bước 1/2/3"), không gom thì sinh hàng trăm chunk vụn 5–10 ký tự và retrieval hỏng hẳn.
+- **Code snippet (nếu custom):** Không custom class, viết phần `_split` / `_merge` trong `src/chunking.py`.
 
 ```python
 def _split(self, current_text: str, remaining_separators: list[str]) -> list[str]:
@@ -142,14 +141,6 @@ def _split(self, current_text: str, remaining_separators: list[str]) -> list[str
             pieces.extend(self._split(part, rest))
     return self._merge(pieces, separator)         # gom lên sát chunk_size
 ```
-
-Cấu hình dùng trong `bench.py` (dòng duy nhất mỗi thành viên đổi):
-
-```python
-CHUNKER = RecursiveChunker(chunk_size=500)
-```
-
-- **Kết quả benchmark (embedding thật `gemini-embedding-001`, `top_k=3`):** **6/10** — câu 2, 3, 4 đạt 2/2 (gold ở top-1 và ngữ cảnh chứa đáp án); câu 1 và câu 5 được 0/2. Chi tiết phân tích lỗi ở mục 3.
 
 **Thành viên 4 — [Tên]**
 
