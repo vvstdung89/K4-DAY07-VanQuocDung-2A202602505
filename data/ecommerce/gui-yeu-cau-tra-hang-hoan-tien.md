@@ -13,14 +13,11 @@ language: "vi"
 
 [Trả hàng/ Hoàn tiền] Hướng dẫn gửi yêu cầu Trả hàng/ Hoàn tiền | Shopee Trung tâm trợ giúp
 
-
 [Trả hàng/ Hoàn tiền] Hướng dẫn gửi yêu cầu Trả hàng/ Hoàn tiền
 
 1. Hướng dẫn gửi yêu cầu Trả hàng/Hoàn tiền
 
 Khi cần yêu cầu trả hàng hoặc hoàn tiền trên Shopee, bạn có thể thực hiện theo một trong hai cách sau.
-
- 
 
 Cách 1: Gửi yêu cầu trực tiếp tại trang đơn hàng
 
@@ -29,8 +26,6 @@ Bước 1: Mở ứng dụng Shopee, vào mục Tôi > chọn thẻ Chờ giao h
 Bước 2: Tại đơn hàng bạn cần xử lý, bấm Trả hàng/Hoàn tiền.
 
 Bước 3: Chọn tình huống bạn đang gặp
-
- 
 
 "Tôi đã nhận hàng nhưng hàng có vấn đề (bể vỡ, sai mẫu, hàng lỗi, khác mô tả,...) - Miễn ship hoàn về ": Dành cho trường hợp sản phẩm bị lỗi, thiếu, hoặc không đúng mô tả.
 
@@ -51,11 +46,6 @@ Bằng chứng thể hiện tình trạng sản phẩm (hình ảnh sản phẩm
 Email liên hệ.
 
 Bước 8: Chọn Gửi yêu cầu để hoàn tất
-
- 
-
-
- 
 
 Cách 2: Gửi yêu cầu tại mục Trò Chuyện Với Shopee
 
@@ -92,6 +82,3 @@ Nếu yêu cầu được chấp nhận, tiền sẽ được hoàn trong 1 - 14
 Trường hợp Trả lại & Hoàn tiền
 
 Bạn cần trả lại sản phẩm bằng cách yêu cầu bưu tá đến lấy hoặc tự ra bưu cục gửi. Sản phẩm sẽ được Người bán/Shopee xem xét khi nhận lại.
-
-
-

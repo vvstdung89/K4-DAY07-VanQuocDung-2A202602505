@@ -13,7 +13,6 @@ language: "vi"
 
 [Trả hàng/Hoàn tiền] Hướng dẫn chuẩn bị bằng chứng khi yêu cầu Trả hàng/ Hoàn tiền | Shopee Trung tâm trợ giúp
 
-
 [Trả hàng/Hoàn tiền] Hướng dẫn chuẩn bị bằng chứng khi yêu cầu Trả hàng/ Hoàn tiền
 
 Khi bạn cần gửi yêu cầu Trả hàng/Hoàn tiền trên Shopee, việc cung cấp đầy đủ và chính xác bằng chứng là rất quan trọng để đảm bảo yêu cầu của bạn được xử lý nhanh chóng. Tùy thuộc vào từng trường hợp, loại bằng chứng bạn cần chuẩn bị sẽ khác nhau.
@@ -44,8 +43,6 @@ Tình trạng sản phẩm: Quay cận cảnh số lượng và tình trạng s�
 
 ⚠️ Lưu ý: Khi bạn cần gửi trả sản phẩm, Shopee khuyến khích bạn quay lại video đóng kiện hàng hoàn trả. Video này cũng cần đáp ứng các tiêu chí tương tự video mở hàng (quay xuyên suốt, rõ nét) và thể hiện rõ tình trạng sản phẩm (niêm phong, tem nhãn) và quá trình đóng gói
 
- 
-
 3. Khiếu nại hàng giả/nhái
 
 Đối với trường hợp đặc biệt này, bạn cần chuẩn bị thêm bằng chứng chứng minh sản phẩm nhận được là hàng giả/nhái.
@@ -68,8 +65,6 @@ Bao bì sản phẩm
 
 Chụp ảnh/quay video cho thấy sự sai khác của bao bì sản phẩm thực nhận so với bao bì chính hãng.
 
- 
-
 4. Quy định về bằng chứng
 
 Để yêu cầu của bạn được xử lý hiệu quả, hãy lưu ý các quy định sau về bằng chứng:
@@ -91,10 +86,3 @@ Bằng chứng bổ sung: Nếu có, bạn có thể cung cấp thêm lịch s�
 Nếu Shopee cần thêm bằng chứng khác, bạn sẽ nhận được thông báo trong mục Thông báo > Cập nhật đơn hàng. Bạn cần bổ sung bằng chứng trong vòng 24 giờ. Sau thời gian này, Shopee sẽ chỉ xem xét dựa trên các bằng chứng đã có.
 
 5. Một số ví dụ minh họa về bằng chứng cần cung cấp
-
- 
-
- 
-
-
-

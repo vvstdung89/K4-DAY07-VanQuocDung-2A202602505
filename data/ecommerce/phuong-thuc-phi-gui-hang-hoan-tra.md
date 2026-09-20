@@ -13,14 +13,11 @@ language: "vi"
 
 [Trả hàng/ Hoàn tiền] Các phương thức gửi hàng hoàn trả và phí hoàn trả | Shopee Trung tâm trợ giúp
 
-
 [Trả hàng/ Hoàn tiền] Các phương thức gửi hàng hoàn trả và phí hoàn trả
 
 1. Hướng dẫn trả hàng sau khi yêu cầu Trả hàng/Hoàn tiền của bạn được chấp nhận
 
 1.1 Hình thức trả hàng và các bước trả hàng tương ứng:
-
- 
 
 Hình thức
 
@@ -60,8 +57,6 @@ Bước 2: Mang hàng đến bưu cục bất kỳ để gửi trả theo địa
 
 Bước 34: Đăng tải bằng chứng trả hàng tại Chi tiết Trả hàng/hoàn tiền của đơn hàng đang hoàn trả
 
- 
-
 Xem chi tiết Cách đóng gói đơn hàng hoàn trả và cách Tra cứu mã vận đơn trả hàng tại đây.
 
 1.2. Lưu ý khi chọn Hình thức Đơn vị vận chuyển đến lấy hàng: 
@@ -69,8 +64,6 @@ Xem chi tiết Cách đóng gói đơn hàng hoàn trả và cách Tra cứu mã
 Đơn vị vận chuyển sẽ chỉ hỗ trợ tối đa 3 lần lấy hàng khác nhau trong vòng 1-3 ngày kể từ ngày lấy hàng bạn đã chọn. Do đó, bạn vui lòng sắp xếp thời gian gửi hàng phù hợp để không ảnh hưởng đến quyền lợi trả hàng. của mình
 
 Nếu đơn vị vận chuyển không đến lấy hàng đúng thời gian dự kiến hoặc cập nhật sai trạng thái hoàn hàng, bạn có thể:
-
- 
 
 Liên hệ đơn vị vận chuyển hỗ trợ nhận đơn hàng hoàn trả của bạn để được hỗ trợ.
 
@@ -132,11 +125,4 @@ Shopee Xu được cấp kể từ ngày 15/01/2026 sẽ có hạn sử dụng l
 
 Ví dụ: Shopee Xu nhận được vào ngày 17/01/2026 sẽ hết hạn vào ngày 31/03/2026.
 
- 
-
 Cách kiểm tra thông tin Shopee Xu: vào mục Tôi > chọn Shopee Xu tại mục Tiện ích của tôi trên ứng dụng Shopee
-
- 
-
-
-

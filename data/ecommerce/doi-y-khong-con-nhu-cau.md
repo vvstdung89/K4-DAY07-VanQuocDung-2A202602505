@@ -13,7 +13,6 @@ language: "vi"
 
 Những điều cần biết về Trả hàng do "Đổi ý/không còn nhu cầu" | Shopee Trung tâm trợ giúp
 
-
 Những điều cần biết về Trả hàng do "Đổi ý/không còn nhu cầu"
 
 1/ Trả hàng do "đổi ý/không còn nhu cầu" nghĩa là gì?
@@ -80,8 +79,6 @@ Hàng đặc thù trong vận chuyển 
 
 · Trang sức vàng, thẻ vàng
 
- 
-
 (*) Lưu ý: Bảng danh mục sản phẩm này chỉ mang tính tham khảo, có thể thay đổi tùy từng tình huống, từng thời điểm theo quyết định của Shopee.
 
 4/ Sản phẩm phải đáp ứng những tiêu chí nào để đủ điều kiện trả hàng do "Đổi ý/không còn nhu cầu"?
@@ -104,8 +101,6 @@ Nhóm ngành hàng Thời trang 
 
 · Thời trang trẻ em
 
- 
-
 · Tình trạng sản phẩm: Sản phẩm phải còn mới hoàn toàn - chưa qua sử dụng, chưa giặt/ủi và chưa có bất kỳ thay đổi nào so với ban đầu.
 
 · Tem, nhãn mác: Toàn bộ tem, nhãn gốc phải còn gắn liền trên sản phẩm và ở trạng thái nguyên vẹn, không bị tháo rời hay hư hỏng.
@@ -120,8 +115,6 @@ Lưu ý dành riêng cho nhóm hàng Thời trang: 
 
 · Khi đóng bọc sản phẩm lại bao bì cũ, vui lòng xếp ngay ngắn gọn gàng để tránh ảnh hưởng sản phẩm.
 
- 
-
 Nhóm ngành hàng  Tiêu dùng nhanh
 
 · Làm đẹp và chăm sóc cá nhân
@@ -132,11 +125,7 @@ Nhóm ngành hàng  Tiêu dùng nhanh
 
 · Hàng gia dụng
 
- 
-
 · Sản phẩm phải giữ nguyên trạng thái ban đầu (bao bì gốc chưa khui mở từ bất kỳ cạnh nào, chưa khui seal / nhãn niêm phong, chưa qua sử dụng, còn nguyên tem nhãn - nếu có).
-
- 
 
 Nhóm ngành hàng Đời sống 
 
@@ -156,19 +145,13 @@ Nhóm ngành hàng Đời sống 
 
 · Sản phẩm nguyên vẹn, không trầy xước/hư hỏng và vẫn còn đầy đủ các bộ phận, phụ kiện đi kèm (nếu có)
 
- 
-
 Nhóm ngành hàng Thiết bị điện tử):
 
 · Phụ kiện điện thoại và phụ kiện thiết bị điện tử khác
 
- 
-
 · Sản phẩm & Niêm phong: Nguyên vẹn bao bì gốc chưa mở, chưa sử dụng (bao gồm cả phần mềm và vật phẩm tiêu hao đi kèm). Bao bì và niêm phong nguyên bản phải còn nguyên, chưa khui mở dưới bất kỳ hình thức nào.
 
 · Trọn bộ kiện hàng: Trả lại đầy đủ phụ kiện (cáp, sạc, điều khiển...), tài liệu hướng dẫn và thẻ bảo hành (nếu có).
-
- 
 
 (**) Lưu ý: Bảng danh mục tiêu chí, điều kiện này chỉ mang tính tham khảo, có thể thay đổi tùy từng tình huống, từng thời điểm theo quyết định của Shopee.
 
@@ -191,6 +174,3 @@ Nguyên bao bì / nguyên seal / nguyên tem mác - chưa bị khui mở dù là
 Còn nguyên bộ sản phẩm đi kèm dù là phụ kiện, thẻ bảo hành, sách hướng dẫn, thẻ thương hiệu, hoặc bất kỳ phụ kiện gì kèm theo 
 
 Việc thiếu hộp hoặc bất kỳ phục kiện nào cũng làm ảnh hưởng đến tính nguyên vẹn của sản phẩm, ảnh hưởng đến cả Người bán lẫn Người mua tiếp theo nên trong trường hợp này, Shopee sẽ không thể hỗ trợ Trả hàng với lý do Đổi ý.
-
-
-
