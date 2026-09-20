@@ -118,6 +118,12 @@ chunks = chunker.chunk(body)  # body = phần markdown sau front matter
 - **Mô tả &amp; lý do chọn:**
 - **Code snippet (nếu custom):**
 
+**Thành viên 4 — [Tên]**
+
+- **Loại chiến lược:**
+- **Mô tả & lý do chọn:**
+- **Code snippet (nếu custom):**
+
 ### So Sánh Giữa Các Thành Viên
 
 
