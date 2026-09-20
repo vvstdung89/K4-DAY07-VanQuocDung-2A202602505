@@ -1,0 +1,95 @@
+==============================================================================
+BENCHMARK — chien luoc: heading (chunk_size=500)
+==============================================================================
+
+Embedding backend : text-embedding-3-small
+Diem tu dong dua tren chuoi dac trung trong top-3; chua danh gia cau tra loi cua LLM.
+So file           : 12
+So chunk           : 119
+
+Chunk / file:
+   20  doi-y-khong-con-nhu-cau
+   20  quy-dinh-chung-tra-hang-hoan-tien-buyer
+   16  phuong-thuc-phi-gui-hang-hoan-tra
+   15  kiem-tra-hoan-tien-spaylater
+   10  thoi-gian-nhan-tien-hoan
+    9  chuan-bi-bang-chung-tra-hang
+    9  dong-goi-don-hang-hoan-tra
+    6  gui-yeu-cau-tra-hang-hoan-tien
+    5  quy-dinh-chung-tra-hang-hoan-tien-seller
+    3  san-pham-han-che-tra-hang
+    3  theo-doi-van-chuyen-hang-hoan-tra
+    3  tra-loi-de-xuat-hoan-tien-ngay
+
+Do dai chunk (ky tu): min=45 max=499 avg=400.52
+
+Dang nhung 119 chunk...
+Store size: 119
+
+------------------------------------------------------------------------------
+[Cau 1] Đơn hàng thực phẩm đông lạnh đã giao thành công 2 ngày trước, tôi đổi ý không muốn dùng nữa thì trả hàng được không?
+    1. score=0.5870  doi-y-khong-con-nhu-cau#15
+       # Những điều cần biết về Trả hàng do Đổi ý/không còn nhu cầu (**) Lưu ý: Bảng danh mục tiêu chí, điều kiện này...
+    2. score=0.5721  doi-y-khong-con-nhu-cau#10
+       # Những điều cần biết về Trả hàng do Đổi ý/không còn nhu cầu Lưu ý dành riêng cho nhóm hàng Thời trang: · Ngườ...
+    3. score=0.5663  doi-y-khong-con-nhu-cau#3
+       # Những điều cần biết về Trả hàng do Đổi ý/không còn nhu cầu Sản phẩm đáp ứng đủ điều kiện trả hàng với lý do ...
+  => 0/2 diem — ngu canh thieu: ['24 giờ', 'không áp dụng lý do trả hàng']
+
+------------------------------------------------------------------------------
+[Cau 2] Shop Voucher do Người bán phát hành có được hoàn lại khi yêu cầu Trả hàng/Hoàn tiền được chấp nhận không?
+  metadata_filter = {'audience': 'seller'}
+    1. score=0.6674  quy-dinh-chung-tra-hang-hoan-tien-seller#3
+       ## 3. Shop Voucher (mã do Người bán phát hành) Shop Voucher (mã do Người bán phát hành) và Mã miễn phí vận chu...
+    2. score=0.6100  quy-dinh-chung-tra-hang-hoan-tien-seller#0
+       # Quy định Trả hàng/Hoàn tiền dành cho Người bán Tách từ bài chính thức [Trả hàng/Hoàn tiền] Những quy định ch...
+    3. score=0.5685  quy-dinh-chung-tra-hang-hoan-tien-seller#4
+       ## 4. Phân biệt với mã Shopee hoàn cho Người mua Mã giảm giá do Shopee phát hành (không phải Shop Voucher) có ...
+  => 2/2 diem — gold o top-1 + ngu canh tra loi duoc
+
+  [A/B] chay lai KHONG filter:
+    1. score=0.6674  quy-dinh-chung-tra-hang-hoan-tien-seller#3
+       ## 3. Shop Voucher (mã do Người bán phát hành) Shop Voucher (mã do Người bán phát hành) và Mã miễn phí vận chu...
+    2. score=0.6560  quy-dinh-chung-tra-hang-hoan-tien-buyer#18
+       ## 2. Hoàn lại Mã giảm giá/Shopee Xu cho Người mua - Việc hoàn lại Voucher chỉ được thực hiện khi khiếu nại ho...
+    3. score=0.6100  quy-dinh-chung-tra-hang-hoan-tien-seller#0
+       # Quy định Trả hàng/Hoàn tiền dành cho Người bán Tách từ bài chính thức [Trả hàng/Hoàn tiền] Những quy định ch...
+  => khong filter: 2/2 — gold o top-1 + ngu canh tra loi duoc
+
+------------------------------------------------------------------------------
+[Cau 3] Tôi trả hàng bằng hình thức “Tự sắp xếp”, đơn không thuộc Shopee Mall, địa chỉ của tôi khác tỉnh với Người bán — được hỗ trợ phí trả hàng bao nhiêu và trong bao lâu?
+    1. score=0.7236  phuong-thuc-phi-gui-hang-hoan-tra#10
+       # Các phương thức gửi hàng hoàn trả và phí hoàn trả Nếu bạn trả hàng qua hình thức Đơn vị vận chuyển đến l...
+    2. score=0.7192  phuong-thuc-phi-gui-hang-hoan-tra#12
+       # Các phương thức gửi hàng hoàn trả và phí hoàn trả Trường hợp địa chỉ của bạn cùng tỉnh/thành phố với Người b...
+    3. score=0.7128  phuong-thuc-phi-gui-hang-hoan-tra#11
+       # Các phương thức gửi hàng hoàn trả và phí hoàn trả Đối với đơn hàng thuộc Shopee Mall: Shopee sẽ hoàn lại bạn...
+  => 2/2 diem — gold o top-1 + ngu canh tra loi duoc
+
+------------------------------------------------------------------------------
+[Cau 4] Khi gửi bằng chứng cho yêu cầu Trả hàng/Hoàn tiền, ảnh và video được phép dung lượng tối đa bao nhiêu, và nếu Shopee yêu cầu bổ sung thì tôi có bao lâu?
+    1. score=0.7325  gui-yeu-cau-tra-hang-hoan-tien#4
+       # Hướng dẫn gửi yêu cầu Trả hàng/Hoàn tiền Yêu cầu của bạn thường được xử lý trong khoảng 3 - 5 ngày làm việc....
+    2. score=0.7213  quy-dinh-chung-tra-hang-hoan-tien-buyer#7
+       ### 1.2. Thời gian tối đa để gửi yêu cầu trả hàng hoàn tiền cho Shopee - Với yêu cầu Trả hàng/Hoàn tiền cho cá...
+    3. score=0.7176  gui-yeu-cau-tra-hang-hoan-tien#3
+       # Hướng dẫn gửi yêu cầu Trả hàng/Hoàn tiền Bước 8: Chọn Gửi yêu cầu để hoàn tất Cách 2: Gửi yêu cầu tại mục Tr...
+  => 0/2 diem — ngu canh thieu: ['5mb', '100 mb', '1 phút', '24 giờ']
+
+------------------------------------------------------------------------------
+[Cau 5] Đơn hàng thanh toán bằng thẻ tín dụng thì bao lâu nhận được tiền hoàn, so với Ví ShopeePay?
+    1. score=0.7397  thoi-gian-nhan-tien-hoan#1
+       # Thời gian nhận tiền hoàn và cách kiểm tra tiền hoàn Thời gian nhận được tiền hoàn sau khi Shopee chấp nhận h...
+    2. score=0.6941  thoi-gian-nhan-tien-hoan#6
+       # Thời gian nhận tiền hoàn và cách kiểm tra tiền hoàn Đối với đơn hàng thanh toán bằng Thẻ Tín dụng/Ghi nợ, Sh...
+    3. score=0.6924  thoi-gian-nhan-tien-hoan#7
+       # Thời gian nhận tiền hoàn và cách kiểm tra tiền hoàn Đối với các hình thức hoàn tiền về Ví Shopee Pay, tại th...
+  => 0/2 diem — ngu canh thieu: ['7 - 14 ngày làm việc']
+
+==============================================================================
+TONG: 4/10
+  Cau 1: 0/2  top3=['doi-y-khong-con-nhu-cau', 'doi-y-khong-con-nhu-cau', 'doi-y-khong-con-nhu-cau']
+  Cau 2: 2/2  top3=['quy-dinh-chung-tra-hang-hoan-tien-seller', 'quy-dinh-chung-tra-hang-hoan-tien-seller', 'quy-dinh-chung-tra-hang-hoan-tien-seller']
+  Cau 3: 2/2  top3=['phuong-thuc-phi-gui-hang-hoan-tra', 'phuong-thuc-phi-gui-hang-hoan-tra', 'phuong-thuc-phi-gui-hang-hoan-tra']
+  Cau 4: 0/2  top3=['gui-yeu-cau-tra-hang-hoan-tien', 'quy-dinh-chung-tra-hang-hoan-tien-buyer', 'gui-yeu-cau-tra-hang-hoan-tien']
+  Cau 5: 0/2  top3=['thoi-gian-nhan-tien-hoan', 'thoi-gian-nhan-tien-hoan', 'thoi-gian-nhan-tien-hoan']

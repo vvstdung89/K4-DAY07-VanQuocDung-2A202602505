@@ -1,9 +1,10 @@
-"""Benchmark truy xuat cho corpus Shopee (mục 3 REPORT_NHOM).
+"""Benchmark truy xuat cho corpus Shopee (muc 3 REPORT_NHOM).
 
-Moi thanh vien chi doi DUNG MOT DONG: bien CHUNKER ben duoi.
+Doi CHUNKER de thu chien luoc rieng; --strategy heading de thu chia theo muc.
 """
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -15,7 +16,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from src.chunking import FixedSizeChunker, RecursiveChunker, SentenceChunker  # noqa: F401
+from src.chunking import FixedSizeChunker, HeadingChunker, RecursiveChunker, SentenceChunker  # noqa: F401
 from src.models import Document
 from src.store import EmbeddingStore
 
@@ -136,14 +137,15 @@ def build_embedder():
     return cached, name
 
 
-def load_chunked_documents() -> tuple[list[Document], dict]:
+def load_chunked_documents(chunker=None) -> tuple[list[Document], dict]:
+    chunker = CHUNKER if chunker is None else chunker
     docs: list[Document] = []
     per_file: dict[str, int] = {}
     for path in sorted(DATA_DIR.glob("*.md")):
         if path.stem in SKIP_FILES:
             continue
         meta, body = parse_frontmatter(path.read_text(encoding="utf-8"))
-        chunks = CHUNKER.chunk(body)
+        chunks = chunker.chunk(body)
         per_file[path.stem] = len(chunks)
         for i, chunk in enumerate(chunks):
             docs.append(
@@ -181,12 +183,17 @@ def grade(question: dict, results: list[dict]) -> tuple[int, str]:
     return 1, f"gold o top-{hit_rank}"
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--strategy", choices=("fixed_size", "heading"), default="fixed_size")
+    args = parser.parse_args(argv)
+    chunker = HeadingChunker(chunk_size=500) if args.strategy == "heading" else CHUNKER
+    strategy_name = "heading (chunk_size=500)" if args.strategy == "heading" else STRATEGY_NAME
     print("=" * 78)
-    print(f"BENCHMARK — chien luoc: {STRATEGY_NAME}")
+    print(f"BENCHMARK — chien luoc: {strategy_name}")
     print("=" * 78)
 
-    docs, per_file = load_chunked_documents()
+    docs, per_file = load_chunked_documents(chunker)
     embedder, backend_name = build_embedder()
     print(f"\nEmbedding backend : {backend_name}")
     if "mock" in backend_name.lower():

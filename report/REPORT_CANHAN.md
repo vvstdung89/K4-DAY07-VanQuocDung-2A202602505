@@ -1,4 +1,4 @@
-# Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
+# Báo Cáo Cá Nhân — Lab 7: Embedding &amp; Vector Store
 
 **Họ tên:** Văn Quốc Dũng
 
@@ -66,13 +66,13 @@ Khi triển khai các phần trong gói `src`, tôi tập trung vào luồng x�
 
 ### Các hàm chia nhỏ (Chunking Functions)
 
-**`SentenceChunker.chunk`** — hướng tiếp cận:
+`**SentenceChunker.chunk**` — hướng tiếp cận:
 
 > Tôi dùng biểu thức chính quy `(?<=[.!?])[ \n]+` để nhận diện ranh giới câu tại dấu chấm, chấm than hoặc chấm hỏi có khoảng trắng hay xuống dòng theo sau. Cách tách này giữ lại dấu câu ở cuối mỗi câu, giúp nội dung sau khi chia vẫn dễ đọc. Sau đó, tôi loại bỏ khoảng trắng thừa và gom tối đa `max_sentences_per_chunk` câu vào một chunk. Nếu đầu vào rỗng hoặc chỉ có khoảng trắng, hàm trả về danh sách rỗng.
 >
 > Ưu điểm của cách làm này là đơn giản và giữ được ranh giới câu trong những trường hợp thông thường. Tuy nhiên, các từ viết tắt như “TS.” hoặc “v.v.” vẫn có thể bị nhận nhầm là kết thúc câu nếu phía sau có khoảng trắng. Đây là hạn chế tôi cần lưu ý khi áp dụng cho văn bản thực tế.
 
-**`RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
+`**RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
 
 > Với `RecursiveChunker`, tôi ưu tiên chia theo cấu trúc lớn của văn bản trước, rồi mới chuyển sang ranh giới nhỏ hơn nếu đoạn vẫn quá dài. Thứ tự dấu phân cách là `"\n\n"`, `"\n"`, `". "`, `" "` và cuối cùng là chuỗi rỗng để chuyển sang cắt theo số ký tự.
 >
@@ -82,7 +82,7 @@ Khi triển khai các phần trong gói `src`, tôi tập trung vào luồng x�
 
 ### Lớp EmbeddingStore
 
-**`add_documents` + `search`** — hướng tiếp cận:
+`**add_documents` + `search`** — hướng tiếp cận:
 
 > Trong phiên bản cá nhân, tôi lưu các bản ghi trực tiếp trong bộ nhớ và đặt `_use_chroma = False`. Cách triển khai này đáp ứng các thao tác cần có của bài thực hành và giúp tôi theo dõi rõ quá trình thêm, tìm kiếm và xóa tài liệu.
 >
@@ -90,7 +90,7 @@ Khi triển khai các phần trong gói `src`, tôi tập trung vào luồng x�
 >
 > Khi tìm kiếm, tôi tạo embedding cho câu hỏi, dùng `compute_similarity` để tính cosine với từng bản ghi, rồi sắp xếp điểm từ cao xuống thấp và lấy tối đa `top_k` kết quả. Hai hàm `search` và `search_with_filter` dùng chung `_search_records` để thống nhất cách xếp hạng. Kết quả trả về gồm nội dung, mã định danh, metadata và điểm tương tự; vector embedding được giữ trong kho lưu trữ.
 
-**`search_with_filter` + `delete_document`** — hướng tiếp cận:
+`**search_with_filter` + `delete_document`** — hướng tiếp cận:
 
 > Tôi thực hiện lọc metadata trước khi tính điểm và chọn top-k. Lý do là nếu lấy top-k trên toàn bộ kho rồi mới lọc, các tài liệu không đúng đối tượng có thể chiếm hết vị trí, khiến kết quả còn lại quá ít dù trong kho vẫn có tài liệu phù hợp. Với bộ dữ liệu của nhóm, trường `audience` giúp giới hạn tìm kiếm vào tài liệu dành cho người mua hoặc người bán.
 >
@@ -98,7 +98,7 @@ Khi triển khai các phần trong gói `src`, tôi tập trung vào luồng x�
 
 ### Tác tử KnowledgeBaseAgent
 
-**`answer`** — hướng tiếp cận:
+`**answer**` — hướng tiếp cận:
 
 > Tôi triển khai `answer` theo ba bước: truy xuất các chunk liên quan nhất, ghép chúng thành ngữ cảnh trong prompt, rồi gọi `llm_fn` để tạo câu trả lời. Nếu không có kết quả truy xuất, hàm trả về thông báo ngay để tránh gọi mô hình khi không có tài liệu làm căn cứ.
 >
@@ -176,13 +176,15 @@ Theo kết quả kiểm thử đã ghi lại ở trên, mã nguồn vượt qua 
 
 Điểm cosine đo bằng `compute_similarity()` trên vector `text-embedding-3-small`.
 
-| Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
-| --- | ----- | ----- | ------- | ------------ | ----- |
-| 1 | Khách được đổi hàng trong 7 ngày nếu sản phẩm còn nguyên tem. | Người mua có 7 ngày để hoàn trả hàng chưa bóc seal. | cao | 0.68 | Có |
-| 2 | Ảnh bằng chứng tối đa 5MB. | Video bằng chứng tối đa 100MB. | cao | 0.72 | Có |
-| 3 | Thời hạn đổi trả là 7 ngày kể từ khi nhận hàng. | Hôm nay trời mưa to, tôi ở nhà đọc sách. | thấp | 0.21 | Có |
-| 4 | Thực phẩm đông lạnh không áp dụng lý do trả hàng đổi ý. | Đơn thanh toán thẻ tín dụng nhận tiền hoàn sau 7 - 14 ngày làm việc. | thấp | 0.29 | Có |
-| 5 | Shopee hoàn voucher Shopee cho người mua. | Shop Voucher của người bán không được hoàn. | thấp | 0.64 | Không |
+
+| Cặp | Câu A                                                         | Câu B                                                                | Dự đoán | Điểm thực tế | Đúng? |
+| --- | ------------------------------------------------------------- | -------------------------------------------------------------------- | ------- | ------------ | ----- |
+| 1   | Khách được đổi hàng trong 7 ngày nếu sản phẩm còn nguyên tem. | Người mua có 7 ngày để hoàn trả hàng chưa bóc seal.                  | cao     | 0.68         | Có    |
+| 2   | Ảnh bằng chứng tối đa 5MB.                                    | Video bằng chứng tối đa 100MB.                                       | cao     | 0.72         | Có    |
+| 3   | Thời hạn đổi trả là 7 ngày kể từ khi nhận hàng.               | Hôm nay trời mưa to, tôi ở nhà đọc sách.                             | thấp    | 0.21         | Có    |
+| 4   | Thực phẩm đông lạnh không áp dụng lý do trả hàng đổi ý.       | Đơn thanh toán thẻ tín dụng nhận tiền hoàn sau 7 - 14 ngày làm việc. | thấp    | 0.29         | Có    |
+| 5   | Shopee hoàn voucher Shopee cho người mua.                     | Shop Voucher của người bán không được hoàn.                          | thấp    | 0.64         | Không |
+
 
 **Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
 
@@ -200,13 +202,15 @@ Tôi sử dụng `FixedSizeChunker(chunk_size=500, overlap=50)` để chạy **5
 
 Benchmark kiểm tra sự xuất hiện của các cụm từ bắt buộc trong ngữ cảnh top-3 và vị trí của tài liệu chuẩn (`gold_docs`). Lần chạy này chưa gọi LLM để sinh câu trả lời, vì vậy cột cuối của bảng là nhận xét của tôi về thông tin có thể dùng để trả lời từ ngữ cảnh, không phải đầu ra thực tế của Agent.
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Khả năng trả lời từ ngữ cảnh top-3 |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Đơn hàng thực phẩm đông lạnh đã giao thành công 2 ngày trước, tôi đổi ý không muốn dùng nữa thì trả hàng được không? | `doi-y-khong-con-nhu-cau#14` đề cập đến điều kiện còn nguyên seal đối với một số sản phẩm vệ sinh và ăn uống. | 0.56 | Liên quan một phần. Tài liệu chuẩn dành cho người mua xuất hiện ở vị trí thứ 3 và có mốc 24 giờ, nhưng ngữ cảnh thiếu quy định hạn chế trả hàng do đổi ý. | Có thể nêu mốc 24 giờ, nhưng chưa đủ căn cứ để giải thích đầy đủ điều kiện trả hàng do đổi ý đối với thực phẩm đông lạnh. **0/2** |
-| 2 | Shop Voucher do Người bán phát hành có được hoàn lại khi yêu cầu Trả hàng/Hoàn tiền được chấp nhận không? | `quy-dinh-chung-tra-hang-hoan-tien-seller#1` chứa quy định về việc không hoàn Shop Voucher và mã Freeship. Truy vấn có lọc `audience=seller`. | 0.62 | Có liên quan. Cả ba kết quả đều thuộc tài liệu dành cho người bán. | Ngữ cảnh đủ để trả lời rằng Shop Voucher không được hoàn lại trong bất cứ trường hợp nào; người mua có thể chủ động liên hệ shop để được hỗ trợ. **2/2** |
-| 3 | Tôi trả hàng bằng hình thức “Tự sắp xếp”, đơn không thuộc Shopee Mall, địa chỉ của tôi khác tỉnh với Người bán — được hỗ trợ phí trả hàng bao nhiêu và trong bao lâu? | `phuong-thuc-phi-gui-hang-hoan-tra#10` nêu mức hỗ trợ 40.000 Shopee Xu nếu khác tỉnh và 25.000 Xu nếu cùng tỉnh. | 0.72 | Có liên quan. Cả ba kết quả đều đúng tài liệu cần tìm; thời gian “3 - 5 ngày làm việc” nằm ở kết quả thứ 2. | Ngữ cảnh cung cấp được cả mức hỗ trợ 40.000 Shopee Xu và thời gian 3–5 ngày làm việc cho trường hợp được hỏi. **2/2** |
-| 4 | Khi gửi bằng chứng cho yêu cầu Trả hàng/Hoàn tiền, ảnh và video được phép dung lượng tối đa bao nhiêu, và nếu Shopee yêu cầu bổ sung thì tôi có bao lâu? | `quy-dinh-chung-tra-hang-hoan-tien-buyer#1` nói về thời hạn gửi yêu cầu, thay vì yêu cầu đối với bằng chứng. | 0.71 | Chưa đáp ứng câu hỏi. Top-3 gồm quy định chung và hướng dẫn gửi yêu cầu, thiếu các cụm `5mb`, `100 mb` và `1 phút`. | Ngữ cảnh chưa đủ để trả lời giới hạn dung lượng ảnh và video. Cần truy xuất thêm tài liệu về bằng chứng trước khi đưa ra câu trả lời đầy đủ. **0/2** |
-| 5 | Đơn hàng thanh toán bằng thẻ tín dụng thì bao lâu nhận được tiền hoàn, so với Ví ShopeePay? | `thoi-gian-nhan-tien-hoan#1` chứa một phần bảng thời gian hoàn tiền, nhưng bị cắt trước khi có đủ thông tin về thẻ tín dụng. | 0.75 | Liên quan một phần. Đã tìm đúng tài liệu chuẩn, nhưng ngữ cảnh top-3 thiếu mốc “7 - 14 ngày làm việc”. | Có thông tin về thời gian hoàn tiền qua ShopeePay khoảng 24 giờ, nhưng chưa đủ dữ liệu để so sánh với thẻ tín dụng. **0/2** |
+
+| #   | Câu hỏi (Query)                                                                                                                                                       | Top-1 Chunk truy xuất được (tóm tắt)                                                                                                          | Điểm Score | Có liên quan không? (Relevant)                                                                                                                            | Khả năng trả lời từ ngữ cảnh top-3                                                                                                                       |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Đơn hàng thực phẩm đông lạnh đã giao thành công 2 ngày trước, tôi đổi ý không muốn dùng nữa thì trả hàng được không?                                                  | `doi-y-khong-con-nhu-cau#14` đề cập đến điều kiện còn nguyên seal đối với một số sản phẩm vệ sinh và ăn uống.                                 | 0.56       | Liên quan một phần. Tài liệu chuẩn dành cho người mua xuất hiện ở vị trí thứ 3 và có mốc 24 giờ, nhưng ngữ cảnh thiếu quy định hạn chế trả hàng do đổi ý. | Có thể nêu mốc 24 giờ, nhưng chưa đủ căn cứ để giải thích đầy đủ điều kiện trả hàng do đổi ý đối với thực phẩm đông lạnh. **0/2**                        |
+| 2   | Shop Voucher do Người bán phát hành có được hoàn lại khi yêu cầu Trả hàng/Hoàn tiền được chấp nhận không?                                                             | `quy-dinh-chung-tra-hang-hoan-tien-seller#1` chứa quy định về việc không hoàn Shop Voucher và mã Freeship. Truy vấn có lọc `audience=seller`. | 0.62       | Có liên quan. Cả ba kết quả đều thuộc tài liệu dành cho người bán.                                                                                        | Ngữ cảnh đủ để trả lời rằng Shop Voucher không được hoàn lại trong bất cứ trường hợp nào; người mua có thể chủ động liên hệ shop để được hỗ trợ. **2/2** |
+| 3   | Tôi trả hàng bằng hình thức “Tự sắp xếp”, đơn không thuộc Shopee Mall, địa chỉ của tôi khác tỉnh với Người bán — được hỗ trợ phí trả hàng bao nhiêu và trong bao lâu? | `phuong-thuc-phi-gui-hang-hoan-tra#10` nêu mức hỗ trợ 40.000 Shopee Xu nếu khác tỉnh và 25.000 Xu nếu cùng tỉnh.                              | 0.72       | Có liên quan. Cả ba kết quả đều đúng tài liệu cần tìm; thời gian “3 - 5 ngày làm việc” nằm ở kết quả thứ 2.                                               | Ngữ cảnh cung cấp được cả mức hỗ trợ 40.000 Shopee Xu và thời gian 3–5 ngày làm việc cho trường hợp được hỏi. **2/2**                                    |
+| 4   | Khi gửi bằng chứng cho yêu cầu Trả hàng/Hoàn tiền, ảnh và video được phép dung lượng tối đa bao nhiêu, và nếu Shopee yêu cầu bổ sung thì tôi có bao lâu?              | `quy-dinh-chung-tra-hang-hoan-tien-buyer#1` nói về thời hạn gửi yêu cầu, thay vì yêu cầu đối với bằng chứng.                                  | 0.71       | Chưa đáp ứng câu hỏi. Top-3 gồm quy định chung và hướng dẫn gửi yêu cầu, thiếu các cụm `5mb`, `100 mb` và `1 phút`.                                       | Ngữ cảnh chưa đủ để trả lời giới hạn dung lượng ảnh và video. Cần truy xuất thêm tài liệu về bằng chứng trước khi đưa ra câu trả lời đầy đủ. **0/2**     |
+| 5   | Đơn hàng thanh toán bằng thẻ tín dụng thì bao lâu nhận được tiền hoàn, so với Ví ShopeePay?                                                                           | `thoi-gian-nhan-tien-hoan#1` chứa một phần bảng thời gian hoàn tiền, nhưng bị cắt trước khi có đủ thông tin về thẻ tín dụng.                  | 0.75       | Liên quan một phần. Đã tìm đúng tài liệu chuẩn, nhưng ngữ cảnh top-3 thiếu mốc “7 - 14 ngày làm việc”.                                                    | Có thông tin về thời gian hoàn tiền qua ShopeePay khoảng 24 giờ, nhưng chưa đủ dữ liệu để so sánh với thẻ tín dụng. **0/2**                              |
+
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?**
 
@@ -230,11 +234,14 @@ Thử nghiệm này cho thấy bộ lọc giúp ưu tiên đúng phạm vi tài 
 
 ## Tự Đánh Giá (Phần Cá Nhân)
 
-| Tiêu chí | Điểm tự đánh giá |
-| --- | --- |
-| Khởi động (Warm-up) | 5 / 5 |
-| Hướng tiếp cận của tôi (My Approach) | 10 / 10 |
-| Hoàn thiện code (Core Implementation — tests) | 30 / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | 5 / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | 9 / 10 |
-| **Tổng phần cá nhân** | **59 / 60** |
+
+| Tiêu chí                                        | Điểm tự đánh giá |
+| ----------------------------------------------- | ---------------- |
+| Khởi động (Warm-up)                             | 5 / 5            |
+| Hướng tiếp cận của tôi (My Approach)            | 10 / 10          |
+| Hoàn thiện code (Core Implementation — tests)   | 30 / 30          |
+| Dự đoán độ tương tự (Similarity Predictions)    | 5 / 5            |
+| Kết quả truy xuất của tôi (Competition Results) | 10 / 10          |
+| **Tổng phần cá nhân**                           | **10 / 60**      |
+
+

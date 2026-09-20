@@ -2,14 +2,12 @@
 
 **Nhóm:** Studo.h (T114)
 
-
 **Thành viên:** 
 
 Đào Quang Thái Anh	2A202602987		  
 Nguyễn Đức Thịnh	2A202602468		  
 Văn Quốc Dũng	2A202602505		  
 Lương Sỹ Khánh	2A202602715	
-
 
 **Ngày:** 20/09/2026
 
@@ -68,16 +66,16 @@ Corpus dùng cho benchmark: **12 file** trong `data/ecommerce/` (11 URL Help Cen
 ### Cấu trúc Metadata (Metadata Schema)
 
 
-| Trường metadata    | Kiểu              | Ví dụ giá trị                                           | Tại sao hữu ích cho truy xuất (retrieval)?                                                                                                                                                   |
-| ------------------ | ----------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `doc_id`           | string (slug)     | `quy-dinh-chung-tra-hang-hoan-tien-buyer`               | Định danh ổn định khi ingest / `delete_document()`; trùng tên file.                                                                                                                          |
-| `title`            | string            | `Thời gian nhận tiền hoàn và cách kiểm tra tiền hoàn`   | Giúp người đọc/agent nhận đúng văn bản nguồn khi trích dẫn.                                                                                                                                  |
-| `source_url`       | URL               | `https://help.shopee.vn/portal/4/article/188931`        | Truy vết gold answer về đúng trang Shopee, không dùng link tìm kiếm.                                                                                                                         |
-| `retrieved_at`     | date `YYYY-MM-DD` | `2026-09-20`                                            | Kiểm tra độ mới của corpus khi chính sách Help Center đổi.                                                                                                                                   |
-| `document_version` | string            | `not-stated`                                            | Chừa chỗ cho ngày hiệu lực; không bịa số hiệu nếu nguồn không nêu.                                                                                                                           |
-| `audience`         | enum              | `buyer` | `seller`                                      | Lọc đúng đối tượng. Câu benchmark không nêu người hỏi cần `metadata_filter={"audience": "buyer"}` (hoặc `"seller"`) kẻo lẫn thời hạn 15 ngày của buyer với quy định Shop Voucher của seller. |
-| `category`         | string            | `returns-policy`, `return-evidence`, `refund-spaylater` | Lọc theo bước quy trình (điều kiện / bằng chứng / vận chuyển / hoàn tiền) khi câu hỏi cùng chủ đề “trả hàng”.                                                                                |
-| `language`         | string            | `vi`                                                    | Đánh dấu corpus tiếng Việt; tránh lẫn tài liệu mẫu tiếng Anh trong `data/`.                                                                                                                  |
+| Trường metadata    | Kiểu              | Ví dụ giá trị                                           | Tại sao hữu ích cho truy xuất (retrieval)?                                                                    |
+| ------------------ | ----------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `doc_id`           | string (slug)     | `quy-dinh-chung-tra-hang-hoan-tien-buyer`               | Định danh ổn định khi ingest / `delete_document()`; trùng tên file.                                           |
+| `title`            | string            | `Thời gian nhận tiền hoàn và cách kiểm tra tiền hoàn`   | Giúp người đọc/agent nhận đúng văn bản nguồn khi trích dẫn.                                                   |
+| `source_url`       | URL               | `https://help.shopee.vn/portal/4/article/188931`        | Truy vết gold answer về đúng trang Shopee, không dùng link tìm kiếm.                                          |
+| `retrieved_at`     | date `YYYY-MM-DD` | `2026-09-20`                                            | Kiểm tra độ mới của corpus khi chính sách Help Center đổi.                                                    |
+| `document_version` | string            | `not-stated`                                            | Chừa chỗ cho ngày hiệu lực; không bịa số hiệu nếu nguồn không nêu.                                            |
+| `audience`         | enum              | `buyer`                                                 | `seller`                                                                                                      |
+| `category`         | string            | `returns-policy`, `return-evidence`, `refund-spaylater` | Lọc theo bước quy trình (điều kiện / bằng chứng / vận chuyển / hoàn tiền) khi câu hỏi cùng chủ đề “trả hàng”. |
+| `language`         | string            | `vi`                                                    | Đánh dấu corpus tiếng Việt; tránh lẫn tài liệu mẫu tiếng Anh trong `data/`.                                   |
 
 
 ---
@@ -121,6 +119,24 @@ from src.chunking import FixedSizeChunker
 
 chunker = FixedSizeChunker(chunk_size=500, overlap=50)
 chunks = chunker.chunk(body)
+```
+
+**Thử nghiệm HeadingChunker**
+
+> `HeadingChunker(500)` tách theo tiêu đề Markdown, chia mục dài bằng RecursiveChunker và giữ tiêu đề trên mỗi chunk con. Chạy `python bench.py --strategy heading` với `text-embedding-3-small`: **119 chunk, 4/10 điểm** (câu 2 và 3 đạt điểm). [Log benchmark](../ket_qua_benchmark_heading.txt).
+
+**Code snippet — chia mục dài và giữ tiêu đề** (trích từ [HeadingChunker](../src/chunking.py)):
+
+```python
+def _split_section(self, heading: str, lines: list[str]) -> list[str]:
+    body = "\n".join(lines).strip()
+    prefix = heading + "\n\n" if heading and body else heading
+    if len(prefix) > self.chunk_size or (body and len(prefix) == self.chunk_size):
+        raise ValueError("chunk_size is too small for the section heading")
+    if not body:
+        return [heading] if heading else []
+    parts = RecursiveChunker(chunk_size=self.chunk_size - len(prefix)).chunk(body)
+    return [prefix + part for part in parts]
 ```
 
 **Thành viên 2 — Nguyễn Đức Thịnh**
@@ -294,12 +310,13 @@ class SemanticChunker:
 ### So Sánh Giữa Các Thành Viên
 
 
-| Thành viên         | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh                                                                          | Điểm yếu                                                                                            |
-| ------------------ | --------------------- | -------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Văn Quốc Dũng      | FixedSizeChunker      | 3/10                 | Đơn giản, kích thước cố định.                                                      | Cắt ngang ranh giới câu làm thiếu cụm từ kiểm chứng `must_contain` ở Câu 3 &amp; 5.                 |
-| Nguyễn Đức Thịnh   | SentenceChunker       | **8/10**             | Giữ trọn vẹn ranh giới câu; ngữ cảnh chứa đầy đủ từ khóa `must_contain` ở 4/5 câu. | Độ dài chunk không đồng đều (min=51, max=2361).                                                     |
-| Lương Sỹ Khánh     | RecursiveChunker      | 6/10                 | Tôn trọng cấu trúc đoạn Markdown (~399 ký tự/chunk), đạt 2/2 điểm ở 3 câu.         | Bị thiếu cụm `"7 - 14 ngày làm việc"` ở Câu 5 khi tách theo đoạn.                                   |
-| Đào Quang Thái Anh | SemanticChunker       | 4/10                 | Gom cụm câu theo ngữ nghĩa tự nhiên.                                               | Tạo ra quá nhiều chunk vụn (229 chunks, trung bình 185 ký tự), làm đứt đoạn từ khóa như `"100 mb"`. |
+| Thành viên         | Chiến lược (Strategy) | Điểm truy xuất (/10)                     | Điểm mạnh                                                                          | Điểm yếu                                                                                            |
+| ------------------ | --------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Văn Quốc Dũng      | FixedSizeChunker      | 3/10                                     | Đơn giản, kích thước cố định.                                                      | Cắt ngang ranh giới câu làm thiếu cụm từ kiểm chứng `must_contain` ở Câu 3 &amp; 5.                 |
+| Văn Quốc Dũng      | HeadingChunker (500)  | [4/10](../ket_qua_benchmark_heading.txt) | Giữ tiêu đề trên mỗi chunk con; câu 2 và 3 đạt 2/2.                                | Tạo 119 chunk; ngữ cảnh truy xuất vẫn thiếu thông tin cần trả lời ở câu 1, 4 và 5.                  |
+| Nguyễn Đức Thịnh   | SentenceChunker       | **8/10**                                 | Giữ trọn vẹn ranh giới câu; ngữ cảnh chứa đầy đủ từ khóa `must_contain` ở 4/5 câu. | Độ dài chunk không đồng đều (min=51, max=2361).                                                     |
+| Lương Sỹ Khánh     | RecursiveChunker      | 6/10                                     | Tôn trọng cấu trúc đoạn Markdown (~399 ký tự/chunk), đạt 2/2 điểm ở 3 câu.         | Bị thiếu cụm `"7 - 14 ngày làm việc"` ở Câu 5 khi tách theo đoạn.                                   |
+| Đào Quang Thái Anh | SemanticChunker       | 4/10                                     | Gom cụm câu theo ngữ nghĩa tự nhiên.                                               | Tạo ra quá nhiều chunk vụn (229 chunks, trung bình 185 ký tự), làm đứt đoạn từ khóa như `"100 mb"`. |
 
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
@@ -322,17 +339,18 @@ class SemanticChunker:
 | 5   | Đơn hàng thanh toán bằng thẻ tín dụng thì bao lâu nhận được tiền hoàn, so với Ví ShopeePay?                                                                           | `["7 - 14 ngày làm việc"]`                            | `thoi-gian-nhan-tien-hoan`                                                                |
 
 
-### Tổng hợp kết quả đánh giá theo `must_contain` (Log chạy thực tế với OpenAI `text-embedding-3-small` &amp; ChromaDB)
+### Tổng hợp kết quả đánh giá theo `must_contain` (Log chạy thực tế với OpenAI `text-embedding-3-small`)
 
 
-| #   | Câu hỏi                          | FixedSize (3/10)                  | Sentence (8/10)                   | Recursive (6/10)              | Semantic (4/10)                   | Nguyên nhân &amp; Ghi chú                                                                                                      |
-| --- | -------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | Thực phẩm đông lạnh đổi ý        | 0/2 (thiếu mốc 24h &amp; hạn chế) | 0/2 (thiếu mốc 24h &amp; hạn chế) | 0/2 (thiếu điều kiện hạn chế) | 0/2 (thiếu mốc 24h &amp; hạn chế) | Đa tài liệu (vừa cần file quy định chung vừa cần file sản phẩm hạn chế trả hàng).                                              |
-| 2   | Hoàn Shop Voucher Người bán      | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)          | **2/2** (Gold Top-1)              | 🎯 Đạt 2/2 điểm nhờ `metadata_filter={"audience": "seller"}` lọc đúng tài liệu Seller trên ChromaDB.                           |
-| 3   | Phí tự sắp xếp khác tỉnh         | 0/2 (thiếu 3-5 ngày)              | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)          | **2/2** (Gold Top-1)              | `SentenceChunker` &amp; `RecursiveChunker` giữ trọn vẹn cụm `"40,000 shopee xu"` và `"3 - 5 ngày làm việc"`.                   |
-| 4   | Dung lượng ảnh/video bằng chứng  | 1/2 (Gold Top-2)                  | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)          | 0/2 (thiếu `"100 mb"`)            | `SentenceChunker` &amp; `RecursiveChunker` chứa đủ cả `"5mb"` và `"100 mb"`. `SemanticChunker` cắt quá vụn làm rách mốc 100MB. |
-| 5   | Thời gian hoàn tiền thẻ tín dụng | 0/2 (thiếu 7-14 ngày)             | **2/2** (Gold Top-1)              | 0/2 (thiếu 7-14 ngày)         | 0/2 (thiếu 7-14 ngày)             | Chỉ `SentenceChunker` giữ nguyên dòng bảng trích xuất đủ cụm từ `"7 - 14 ngày làm việc"`.                                      |
+| #   | Câu hỏi                          | FixedSize (3/10)                  | Sentence (8/10)                   | Recursive (6/10)              | Semantic (4/10)                   | Heading (4/10) | Nguyên nhân &amp; Ghi chú                                                                                                      |
+| --- | -------------------------------- | --------------------------------- | --------------------------------- | ----------------------------- | --------------------------------- | --- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | Thực phẩm đông lạnh đổi ý        | 0/2 (thiếu mốc 24h &amp; hạn chế) | 0/2 (thiếu mốc 24h &amp; hạn chế) | 0/2 (thiếu điều kiện hạn chế) | 0/2 (thiếu mốc 24h &amp; hạn chế) | 0/2 (thiếu 24 giờ và điều kiện hạn chế) | Đa tài liệu (vừa cần file quy định chung vừa cần file sản phẩm hạn chế trả hàng).                                              |
+| 2   | Hoàn Shop Voucher Người bán      | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)          | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1) | 🎯 Đạt 2/2 điểm nhờ `metadata_filter={"audience": "seller"}` lọc đúng tài liệu Seller.                           |
+| 3   | Phí tự sắp xếp khác tỉnh         | 0/2 (thiếu 3-5 ngày)              | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)          | **2/2** (Gold Top-1)              | **2/2** (đủ mức phí và thời gian) | `SentenceChunker` &amp; `RecursiveChunker` giữ trọn vẹn cụm `"40,000 shopee xu"` và `"3 - 5 ngày làm việc"`.                   |
+| 4   | Dung lượng ảnh/video bằng chứng  | 1/2 (Gold Top-2)                  | **2/2** (Gold Top-1)              | **2/2** (Gold Top-1)          | 0/2 (thiếu `"100 mb"`)            | 0/2 (chưa lấy đúng tài liệu bằng chứng) | `SentenceChunker` &amp; `RecursiveChunker` chứa đủ cả `"5mb"` và `"100 mb"`. `SemanticChunker` cắt quá vụn làm rách mốc 100MB. |
+| 5   | Thời gian hoàn tiền thẻ tín dụng | 0/2 (thiếu 7-14 ngày)             | **2/2** (Gold Top-1)              | 0/2 (thiếu 7-14 ngày)         | 0/2 (thiếu 7-14 ngày)             | 0/2 (thiếu 7–14 ngày làm việc) | Chỉ `SentenceChunker` giữ nguyên dòng bảng trích xuất đủ cụm từ `"7 - 14 ngày làm việc"`.                                      |
 
+> HeadingChunker dùng kho lưu trữ trong bộ nhớ; [log đầy đủ](../ket_qua_benchmark_heading.txt). Ở câu 2, cả có và không lọc metadata đều đạt 2/2.
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
 
@@ -354,7 +372,7 @@ class SemanticChunker:
 
 **Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
 
-> Nhóm sẽ phát triển cơ chế **Hybrid Markdown Chunking** (kết hợp lưu Heading Context vào từng Sentence Chunk) để giải quyết dứt điểm Câu hỏi 1 (câu hỏi đa tài liệu cần liên kết thông tin giữa mốc thời gian 24 giờ và danh mục hàng hạn chế).
+> Sau thử nghiệm HeadingChunker, nhóm sẽ chuẩn hóa tiêu đề mục trong dữ liệu và cải thiện việc lấy thông tin từ nhiều tài liệu cho câu 1.
 
 ---
 

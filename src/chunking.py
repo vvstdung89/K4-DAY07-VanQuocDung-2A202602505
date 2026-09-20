@@ -129,6 +129,53 @@ class RecursiveChunker:
         return merged
 
 
+class HeadingChunker:
+    """Split ATX Markdown sections, repeating their heading on every subchunk.
+
+    chunk_size includes the heading. Raise ValueError if a heading leaves no
+    room for its content. Text before the first heading uses recursive splitting.
+    """
+
+    _HEADING = re.compile(r"^ {0,3}#{1,6}(?:[ \t]+|$)")
+    _FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
+
+    def __init__(self, chunk_size: int = 500) -> None:
+        if chunk_size <= 0:
+            raise ValueError("chunk_size must be positive")
+        self.chunk_size = chunk_size
+
+    def chunk(self, text: str) -> list[str]:
+        chunks: list[str] = []
+        heading = ""
+        lines: list[str] = []
+        fence = ""
+        for line in text.splitlines():
+            marker = self._FENCE.match(line)
+            if marker:
+                run, suffix = marker.groups()
+                if not fence:
+                    fence = run
+                elif run[0] == fence[0] and len(run) >= len(fence) and not suffix.strip():
+                    fence = ""
+            elif not fence and self._HEADING.match(line):
+                chunks.extend(self._split_section(heading, lines))
+                heading, lines = line.strip(), []
+                continue
+            lines.append(line)
+        chunks.extend(self._split_section(heading, lines))
+        return chunks
+
+    def _split_section(self, heading: str, lines: list[str]) -> list[str]:
+        body = "\n".join(lines).strip()
+        prefix = heading + "\n\n" if heading and body else heading
+        if len(prefix) > self.chunk_size or (body and len(prefix) == self.chunk_size):
+            raise ValueError("chunk_size is too small for the section heading")
+        if not body:
+            return [heading] if heading else []
+        parts = RecursiveChunker(chunk_size=self.chunk_size - len(prefix)).chunk(body)
+        return [prefix + part for part in parts]
+
+
 def _dot(a: list[float], b: list[float]) -> float:
     return sum(x * y for x, y in zip(a, b))
 
