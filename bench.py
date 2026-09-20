@@ -21,8 +21,8 @@ from src.store import EmbeddingStore
 
 # ---------------------------------------------------------------- chien luoc
 # >>> DONG DUY NHAT MOI THANH VIEN DOI <<<
-CHUNKER = RecursiveChunker(chunk_size=500)
-STRATEGY_NAME = "recursive (chunk_size=500)"
+CHUNKER = FixedSizeChunker(chunk_size=500, overlap=50)
+STRATEGY_NAME = "fixed_size (chunk_size=500, overlap=50)"
 # ---------------------------------------------------------------------------
 
 DATA_DIR = Path("data/ecommerce")
@@ -47,23 +47,23 @@ QUESTIONS = [
     },
     {
         "id": 3,
-        "query": "Tôi trả hàng bằng hình thức Tự sắp xếp, đơn không thuộc Shopee Mall, địa chỉ khác tỉnh với Người bán thì được hỗ trợ phí trả hàng bao nhiêu và trong bao lâu?",
+        "query": "Tôi trả hàng bằng hình thức “Tự sắp xếp”, đơn không thuộc Shopee Mall, địa chỉ của tôi khác tỉnh với Người bán — được hỗ trợ phí trả hàng bao nhiêu và trong bao lâu?",
         "gold_docs": ["phuong-thuc-phi-gui-hang-hoan-tra"],
         "must_contain": ["40,000 shopee xu", "3 - 5 ngày làm việc"],
         "filter": None,
     },
     {
         "id": 4,
-        "query": "Khi gửi bằng chứng cho yêu cầu Trả hàng/Hoàn tiền, ảnh và video được phép dung lượng tối đa bao nhiêu?",
+        "query": "Khi gửi bằng chứng cho yêu cầu Trả hàng/Hoàn tiền, ảnh và video được phép dung lượng tối đa bao nhiêu, và nếu Shopee yêu cầu bổ sung thì tôi có bao lâu?",
         "gold_docs": ["chuan-bi-bang-chung-tra-hang"],
-        "must_contain": ["5mb", "100 mb"],
+        "must_contain": ["5mb", "100 mb", "1 phút", "24 giờ"],
         "filter": None,
     },
     {
         "id": 5,
-        "query": "Đơn hàng thanh toán bằng thẻ tín dụng thì bao lâu nhận được tiền hoàn?",
+        "query": "Đơn hàng thanh toán bằng thẻ tín dụng thì bao lâu nhận được tiền hoàn, so với Ví ShopeePay?",
         "gold_docs": ["thoi-gian-nhan-tien-hoan"],
-        "must_contain": ["7 - 14 ngày làm việc"],
+        "must_contain": ["7 - 14 ngày làm việc", "24 giờ", "shopeepay"],
         "filter": None,
     },
 ]
@@ -90,7 +90,7 @@ def parse_frontmatter(raw: str) -> tuple[dict, str]:
             continue
         key, value = line.split(":", 1)
         meta[key.strip()] = value.strip().strip('"').strip("'")
-    return meta, body.lstrip("\n")
+    return meta, body.strip()
 
 
 def build_embedder():
@@ -105,9 +105,9 @@ def build_embedder():
 
         backend = LocalEmbedder()
     elif provider == "openai":
-        from src.embeddings import OpenAIEmbedder
+        from src.embeddings import OPENAI_EMBEDDING_MODEL, OpenAIEmbedder
 
-        backend = OpenAIEmbedder()
+        backend = OpenAIEmbedder(model_name=os.getenv("OPENAI_EMBEDDING_MODEL", OPENAI_EMBEDDING_MODEL))
     else:
         from src.embeddings import _mock_embed
 
@@ -189,6 +189,9 @@ def main() -> int:
     docs, per_file = load_chunked_documents()
     embedder, backend_name = build_embedder()
     print(f"\nEmbedding backend : {backend_name}")
+    if "mock" in backend_name.lower():
+        print("LUU Y: Mock embeddings chi kiem tra pipeline; diem khong do chat luong truy xuat ngu nghia.")
+    print("Diem tu dong dua tren chuoi dac trung trong top-3; chua danh gia cau tra loi cua LLM.")
     print(f"So file           : {len(per_file)}")
     print(f"So chunk           : {len(docs)}")
     print("\nChunk / file:")
@@ -196,7 +199,7 @@ def main() -> int:
         print(f"  {count:3d}  {stem}")
 
     lengths = [len(d.content) for d in docs]
-    print(f"\nDo dai chunk: min={min(lengths)} max={max(lengths)} avg={sum(lengths) / len(lengths):.0f}")
+    print(f"\nDo dai chunk (ky tu): min={min(lengths)} max={max(lengths)} avg={sum(lengths) / len(lengths):.2f}")
 
     print(f"\nDang nhung {len(docs)} chunk...")
     store = EmbeddingStore(collection_name="shopee_returns", embedding_fn=embedder)
