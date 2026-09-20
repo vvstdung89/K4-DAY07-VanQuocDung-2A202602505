@@ -13,14 +13,9 @@ language: "vi"
 
 [Trả hàng/ Hoàn tiền] Thời gian nhận tiền hoàn và cách kiểm tra tiền hoàn | Shopee Trung tâm trợ giúp
 
-
 [Trả hàng/ Hoàn tiền] Thời gian nhận tiền hoàn và cách kiểm tra tiền hoàn
 
 Sau khi gửi trả hàng, bạn sẽ nhận được thông báo xác nhận hoàn tiền qua mục Thông báo > Cập nhật đơn hàng trên ứng dụng Shopee, sau đó tiền sẽ được hoàn theo các phương thức thanh toán sau: 
-
- 
-
- 
 
 Phương thức thanh toán
 
@@ -86,8 +81,6 @@ SPayLater
 
 Mục Giao dịch trong SPayLater
 
- 
-
 *Lưu ý: 
 
 Nếu bạn gửi yêu cầu THHT sau khi đơn cập nhật trạng thái “Hoàn thành” - giao dịch trả góp đã được ghi nhận với ngân hàng:
@@ -96,8 +89,6 @@ Nếu bạn gửi yêu cầu THHT sau khi đơn cập nhật trạng thái �
 24 giờ
 
 Bảng 1: Phương thức hoàn tiền và thời gian hoàn tiền theo các phương thức thanh toán trên Shopee
-
- 
 
 ⚠️ Lưu ý:
 
@@ -118,6 +109,3 @@ Trong quá trình xử lý nếu Người bán có khiếu nại, Shopee sẽ xe
 Số tiền đã thanh toán bằng SPayLater: hoàn về Số dư khả dụng SPayLater trong 24 giờ hoặc Hóa đơn SPayLater trong 3 - 5 ngày làm việc tiếp theo (chi tiết xem tại Bảng bên trên)
 
 Số tiền thanh toán bằng phương thức thanh toán khác: hoàn về Ví ShopeePay (nếu trước đó bạn chon thanh toán bằng Ví ShopeePay) hoặc Số dư TK Shopee (nếu trước đó bạn chọn thanh toán bằng Thanh toán QR/Ứng dụng ngân hàng) trong 24 giờ tiếp theo.
-
-
-

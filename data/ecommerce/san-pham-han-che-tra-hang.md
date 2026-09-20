@@ -13,16 +13,11 @@ language: "vi"
 
 [Trả hàng/ Hoàn tiền] Sản phẩm hạn chế trả hàng là gì? | Shopee Trung tâm trợ giúp
 
-
 [Trả hàng/ Hoàn tiền] Sản phẩm hạn chế trả hàng là gì?
 
 Sản phẩm hạn chế trả hàng là những sản phẩm có tính đặc thù cao, dễ hư hỏng hoặc cần điều kiện bảo quản nghiêm ngặt. Đối với nhóm sản phẩm này, Shopee không áp dụng lý do trả hàng “Đổi ý (Sản phẩm còn nguyên tem, nhãn mác, bao bì)”.
 
- 
-
 Sản phẩm hạn chế trả hàng thuộc các nhóm sản phẩm dưới đây:
-
- 
 
 Danh mục sản phẩm hạn chế
 
@@ -63,9 +58,4 @@ Khác
 
 ·  Các thông tin sẽ được ghi chú rõ ràng tại trang chi tiết/ hoặc hình ảnh sản phẩm hoặc các nội dung đăng tải công khai khác…
 
- 
-
 Lưu ý: Danh sách này có thể thay đổi tùy từng thời điểm theo quyết định của Shopee.
-
-
-

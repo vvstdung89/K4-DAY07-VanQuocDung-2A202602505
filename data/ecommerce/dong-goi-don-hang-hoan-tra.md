@@ -13,18 +13,13 @@ language: "vi"
 
 [Trả hàng/ Hoàn tiền] Cách đóng gói đơn hàng hoàn trả | Shopee Trung tâm trợ giúp
 
-
 [Trả hàng/ Hoàn tiền] Cách đóng gói đơn hàng hoàn trả
 
 Đóng gói đơn hàng hoàn trả theo hướng dẫn của Shopee để đảm bảo an toàn cho sản phẩm bên trong tránh mất mát hoặc hư hỏng, giúp quá trình hoàn trả nhanh chóng, không bị từ chối.
 
- 
-
 Các bước đóng gói hàng hoàn trả:
 
 Để đảm bảo tình trạng hàng hoàn trả nguyên vẹn hoặc không hư hỏng nặng hơn, Shopee khuyến khích bạn chuẩn bị vật liệu đóng gói và tham khảo hướng dẫn đóng gói theo tiêu chuẩn của Shopee tại đây.
-
- 
 
 Chuẩn bị:
 
@@ -32,15 +27,9 @@ Vật liệu đóng gói (hộp carton/bao bì, băng dính, vật liệu chèn 
 
 Phiếu gửi hàng (in từ hệ thống hoặc viết tay).
 
- 
-
 Đóng hàng:
 
- 
-
 Bạn cần đóng gói và quay video quá trình đóng gói sản phẩm hoàn trả, bao gồm hộp của nhà sản xuất, giấy tờ, phụ kiện, quà tặng đi kèm… (nếu có) và đóng gói với đầy đủ vật liệu, quy cách đóng gói theo tiêu chuẩn của Shopee hoặc như khi nhận hàng (quy cách đóng gói của Người bán).
-
- 
 
 ⚠️ Lưu ý:
 
@@ -59,39 +48,19 @@ Hộp vận chuyển
 
 Hộp nhà sản xuất
 
-·
-
 Là loại hộp trơn, thường làm bằng carton cứng.
-
- 
-
-·
 
 Không in logo, hình ảnh hay thông tin sản phẩm.
 
- 
-
-·
-
 Là hộp thiết kế bởi nhà sản xuất, thường có logo, hình ảnh minh họa, thông tin về sản phẩm (tên, thông số kỹ thuật, hướng dẫn sử dụng...).
 
- 
-
-·
-
 Kích thước vừa khít với sản phẩm.
-
- 
-
- 
 
 Viết mã vận đơn lên hộp hàng:
 
 Mã vận đơn: Vào ứng dụng Shopee > Mục Tôi > Trả hàng/ hoàn tiền > Tại đơn đang cần trả hàng, bấm Thông tin lấy hàng hoặc Trả hàng tại bưu cục. 
 
 Khi đóng gói hàng hoàn trả, bạn vui lòng dán hoặc viết thông tin trả hàng tại hộp đóng gói vận chuyển.
-
- 
 
 ⚠️ Lưu ý: 
 
@@ -100,8 +69,6 @@ Không dán, viết lên hộp của nhà sản xuất.
 Với hình thức Đơn vị vận chuyển đến lấy hàng và Trả hàng tại bưu cục: Bạn chỉ cần in, dán phiếu gửi hàng hoặc viết tay trực tiếp mã vận đơn được Shopee cung cấp lên gói hàng, sau đó giao hàng cho đơn vị vận chuyển.
 
 Với hình thức Tự sắp xếp: Bạn cần ghi chữ “Trả hàng Shopee” lên hộp vận chuyển và gửi trả tại bưu cục tùy chọn theo địa chỉ trả hàng Shopee cung cấp.
-
- 
 
 4.  Giao hàng cho nhân viên nhận hàng hoàn trả:
 
@@ -132,8 +99,3 @@ Chi tiết cân nặng và khối lượng của từng đơn vị vận chuyể
 Quy trình gửi trả hàng Cồng Kềnh tương tự như những sản phẩm khác:
 
 Xem hướng dẫn chi tiết Các phương thức gửi hàng hoàn trả và phí hoàn trả tại đây.
-
- 
-
-
-

@@ -13,7 +13,6 @@ language: "vi"
 
 [Trả hàng/ Hoàn tiền] Hướng dẫn Người mua trả lời đề xuất Hoàn Tiền Ngay của Người bán | Shopee Trung tâm trợ giúp
 
-
 [Trả hàng/ Hoàn tiền] Hướng dẫn Người mua trả lời đề xuất Hoàn Tiền Ngay của Người bán
 
 Trong một số trường hợp, khi bạn tạo yêu cầu Trả hàng/Hoàn tiền (THHT), Người bán có thể gửi cho bạn một đề xuất Hoàn tiền ngay (một phần hoặc toàn bộ giá trị đơn hàng).
@@ -34,8 +33,6 @@ Nhấn Đồng ý
 
 > Bạn sẽ nhận được tiền hoàn ngay mà không cần trả hàng
 
- 
-
 Trường hợp 2:  Bạn KHÔNG đồng ý với số tiền Người bán đề xuất
 
 Bạn có thể chọn 1 trong 2 cách sau:
@@ -45,6 +42,3 @@ Nhấn Trao đổi thêm để Chat với Người bán nếu cần thương lư
 HOẶC Nhấn Tôi muốn trả hàng để tiếp tục quy trình trả sản phẩm và nhận toàn bộ số tiền theo yêu cầu THHT ban đầu
 
 Bạn có thể tìm hiểu thêm các bài viết khác về Trả hàng/Hoàn tiền tại đây.
-
-
-
