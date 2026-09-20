@@ -1,8 +1,8 @@
-# Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
+# Báo Cáo Cá Nhân — Lab 7: Embedding &amp; Vector Store
 
-**Họ tên:** [Tên sinh viên]
-**Nhóm:** [Tên nhóm]
-**Ngày:** [Ngày nộp]
+**Họ tên: Văn Quốc Dũng**  
+**Nhóm:** Studo.h (T114)  
+**Ngày:**20/9/2026
 
 > **Nộp 1 bản / sinh viên.** Phần nhóm (lựa chọn tài liệu, thiết kế chiến lược, bộ câu hỏi đánh giá, demo) nộp chung 1 bản trong `REPORT_NHOM.md`. Chi tiết thang điểm: `docs/SCORING.md`.
 
@@ -15,29 +15,35 @@
 ### Độ tương tự Cosine (Cosine Similarity) (Bài tập 1.1)
 
 **Độ tương tự cosine cao (High cosine similarity) nghĩa là gì?**
-> *Viết 1-2 câu:*
+
+> *Hai đoạn văn có độ tương tự cosine cao nghĩa là vector của chúng cùng hướng — tức giống nhau về ngữ nghĩa, dù từ vựng hay cấu trúc câu khác nhau.*
 
 **Ví dụ có độ tương tự CAO:**
-- Câu A:
-- Câu B:
-- Tại sao tương đồng:
+
+- Câu A: Khách được đổi hàng trong 7 ngày nếu sản phẩm còn nguyên tem.
+- Câu B: Người mua có 7 ngày để hoàn trả hàng chưa bóc seal.
+- Tại sao tương đồng: Khác từ nhưng cùng nghĩa chính sách đổi trả 7 ngày; embedding so nghĩa chứ không khớp từ.
 
 **Ví dụ có độ tương tự THẤP:**
-- Câu A:
-- Câu B:
-- Tại sao khác:
+
+- Câu A: Thời hạn đổi trả là 7 ngày kể từ khi nhận hàng.
+- Câu B: Người bán phải nộp thuế GTGT theo quý.
+- Tại sao khác: Một câu nói quyền người mua, một câu nói nghĩa vụ thuế — chủ đề khác nên vector lệch hướng.
 
 **Tại sao độ tương tự cosine (cosine similarity) được ưu tiên hơn khoảng cách Euclid (Euclidean distance) cho text embeddings?**
-> *Viết 1-2 câu:*
+
+> *Cosine chỉ đo góc (hướng ngữ nghĩa), không phụ thuộc độ dài vector. Euclid nhạy với độ lớn; câu dài/ngắn dễ bị coi là xa dù cùng nghĩa.* 
 
 ### Bài toán tính toán Chunking (Bài tập 1.2)
 
 **Tài liệu 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
-> *Trình bày phép tính:*
-> *Đáp án:*
+
+>  `ceil((10000 - 50) / (500 - 50)) = ceil(9950 / 450) = ceil(22.11) = 23`. Kiểm lại bằng `FixedSizeChunker(500, 50).chunk('a'*10000)` cũng ra 23.
+> *Đáp án:* 23 chunks
 
 **Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk thay đổi thế nào? Tại sao muốn độ chồng chéo nhiều hơn?**
-> *Viết 1-2 câu:*
+
+> *Overlap=100 → `ceil((10000-100)/(500-100)) = ceil(24.75) = 25` chunk (tăng 2). Overlap lớn giữ ngữ cảnh ở ranh giới chunk, tránh mất thông tin bị cắt đôi.*
 
 ---
 
@@ -47,23 +53,28 @@ Giải thích cách tiếp cận của bạn khi lập trình (implement) các p
 
 ### Các hàm chia nhỏ (Chunking Functions)
 
-**`SentenceChunker.chunk`** — hướng tiếp cận:
+`**SentenceChunker.chunk**` — hướng tiếp cận:
+
 > *Viết 2-3 câu: dùng biểu thức chính quy (regex) gì để phát hiện câu? Xử lý trường hợp ngoại lệ (edge case) nào?*
 
-**`RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
+`**RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
+
 > *Viết 2-3 câu: thuật toán hoạt động thế nào? Base case (trường hợp cơ sở) là gì?*
 
 ### Lớp EmbeddingStore
 
-**`add_documents` + `search`** — hướng tiếp cận:
+`**add_documents` + `search`** — hướng tiếp cận:
+
 > *Viết 2-3 câu: lưu trữ thế nào? Tính độ tương tự ra sao?*
 
-**`search_with_filter` + `delete_document`** — hướng tiếp cận:
+`**search_with_filter` + `delete_document`** — hướng tiếp cận:
+
 > *Viết 2-3 câu: lọc (filter) trước hay sau? Xóa bằng cách nào?*
 
 ### Tác tử KnowledgeBaseAgent
 
-**`answer`** — hướng tiếp cận:
+`**answer**` — hướng tiếp cận:
+
 > *Viết 2-3 câu: cấu trúc prompt? Cách đưa ngữ cảnh (inject context) vào thế nào?*
 
 ---
@@ -84,15 +95,18 @@ Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
 
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 
-| Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
-|------|-----------|-----------|---------|--------------|-------|
-| 1 | | | cao / thấp | | |
-| 2 | | | cao / thấp | | |
-| 3 | | | cao / thấp | | |
-| 4 | | | cao / thấp | | |
-| 5 | | | cao / thấp | | |
+
+| Cặp | Câu A | Câu B | Dự đoán    | Điểm thực tế | Đúng? |
+| --- | ----- | ----- | ---------- | ------------ | ----- |
+| 1   |       |       | cao / thấp |              |       |
+| 2   |       |       | cao / thấp |              |       |
+| 3   |       |       | cao / thấp |              |       |
+| 4   |       |       | cao / thấp |              |       |
+| 5   |       |       | cao / thấp |              |       |
+
 
 **Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
+
 > *Viết 2-3 câu:*
 
 ---
@@ -101,28 +115,34 @@ Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
 
 Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+
+| #   | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
+| --- | --------------- | ------------------------------------ | ---------- | ------------------------------ | ------------------------------- |
+| 1   |                 |                                      |            |                                |                                 |
+| 2   |                 |                                      |            |                                |                                 |
+| 3   |                 |                                      |            |                                |                                 |
+| 4   |                 |                                      |            |                                |                                 |
+| 5   |                 |                                      |            |                                |                                 |
+
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
+
 > *Viết 2-3 câu:*
 
 ---
 
 ## Tự Đánh Giá (Phần Cá Nhân)
 
-| Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
-| Khởi động (Warm-up) | / 5 |
-| Hướng tiếp cận của tôi (My Approach) | / 10 |
-| Hoàn thiện code (Core Implementation — tests) | / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | / 10 |
-| **Tổng phần cá nhân** | **/ 60** |
+
+| Tiêu chí                                        | Điểm tự đánh giá |
+| ----------------------------------------------- | ---------------- |
+| Khởi động (Warm-up)                             | / 5              |
+| Hướng tiếp cận của tôi (My Approach)            | / 10             |
+| Hoàn thiện code (Core Implementation — tests)   | / 30             |
+| Dự đoán độ tương tự (Similarity Predictions)    | / 5              |
+| Kết quả truy xuất của tôi (Competition Results) | / 10             |
+| **Tổng phần cá nhân**                           | **/ 60**         |
+
+
