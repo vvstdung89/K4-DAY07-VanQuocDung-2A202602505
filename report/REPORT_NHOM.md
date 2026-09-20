@@ -114,11 +114,42 @@ chunks = chunker.chunk(body)  # body = phần markdown sau front matter
 - **Mô tả &amp; lý do chọn cho chủ đề này:** Tách văn bản bằng `re.split(r"(?<=[.!?])\s+", text)` (giữ nguyên dấu câu) rồi gom `max_sentences_per_chunk` câu thành một chunk, mỗi chunk là một đơn vị trọn câu để giữ ngữ nghĩa. Số liệu baseline cho thấy điểm yếu với dữ liệu Shopee: các bài viết theo dạng tiêu đề/bước không có dấu chấm cuối dòng nên chunk to và không đều (xem phân tích ở trên). Làm baseline để so sánh retrieval với FixedSize/Recursive/... của thành viên khác là công bằng. 
 - **Code snippet (nếu custom):** không có, dùng `SentenceChunker` trong `src/chunking.py`.
 
-**Thành viên 3 — [Tên]**
+**Thành viên 3 — Lương Sỹ Khánh**
 
-- **Loại chiến lược:**
-- **Mô tả &amp; lý do chọn:**
-- **Code snippet (nếu custom):**
+- **Loại chiến lược:** Recursive (`RecursiveChunker`, `chunk_size=500`, separators mặc định `["\n\n", "\n", ". ", " ", ""]`)
+- **Mô tả &amp; lý do chọn cho chủ đề này:** Cắt ở ranh giới "to" trước — `\n\n` là ranh giới giữa các mục của bài Help Center — nên mỗi chunk thường trọn một mục (`1.2. Thời gian tối đa...`, `2.2. Phí vận chuyển trả hàng`), chỉ khi mảnh vẫn quá 500 ký tự mới hạ xuống `\n` rồi `". "`. Chọn cho chủ đề này vì corpus Shopee là văn bản quy định phân mục rõ, đáp án luôn nằm gọn trong một mục; cắt cứng theo độ dài sẽ chẻ đôi bảng thời hạn 24 giờ / 15 ngày / 20 ngày. Bước **gom lên** quan trọng không kém bước đệ quy xuống: các file này đầy dòng ngắn (bullet, "Bước 1/2/3"), không gom thì sinh hàng trăm chunk vụn 5–10 ký tự và retrieval hỏng hẳn.
+- **Số liệu thực đo trên corpus 12 file:** 107 chunk, độ dài min 50 / max 496 / **trung bình 396 ký tự** — sát trần 500, tức bước gom hoạt động đúng.
+- **Code snippet (nếu custom):** Không custom class, nhưng phần `_split` / `_merge` trong `src/chunking.py` là tự viết (starter chỉ có `NotImplementedError`):
+
+```python
+def _split(self, current_text: str, remaining_separators: list[str]) -> list[str]:
+    text = current_text
+    if not text:
+        return []
+    if len(text) <= self.chunk_size:              # base case 1: đã vừa
+        return [text]
+    if not remaining_separators or remaining_separators[0] == "":
+        return self._hard_split(text)             # base case 2: hết separator
+    separator, rest = remaining_separators[0], remaining_separators[1:]
+    parts = [p for p in text.split(separator) if p]
+    if len(parts) <= 1:                           # base case 3: separator vắng mặt
+        return self._split(text, rest)
+    pieces = []
+    for part in parts:                            # đệ quy xuống
+        if len(part) <= self.chunk_size:
+            pieces.append(part)
+        else:
+            pieces.extend(self._split(part, rest))
+    return self._merge(pieces, separator)         # gom lên sát chunk_size
+```
+
+Cấu hình dùng trong `bench.py` (dòng duy nhất mỗi thành viên đổi):
+
+```python
+CHUNKER = RecursiveChunker(chunk_size=500)
+```
+
+- **Kết quả benchmark (embedding thật `gemini-embedding-001`, `top_k=3`):** **6/10** — câu 2, 3, 4 đạt 2/2 (gold ở top-1 và ngữ cảnh chứa đáp án); câu 1 và câu 5 được 0/2. Chi tiết phân tích lỗi ở mục 3.
 
 **Thành viên 4 — [Tên]**
 
@@ -131,9 +162,9 @@ chunks = chunker.chunk(body)  # body = phần markdown sau front matter
 
 | Thành viên         | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
 | ------------------ | --------------------- | -------------------- | --------- | -------- |
-| Văn Quốc Dũng      | FixedSize Chunking    |                      |           |          |
+| Văn Quốc Dũng      | FixedSize (500/50)    |                      |           |          |
 | Nguyễn Đức Thịnh   | Sentence Chunking     |                      |           |          |
-| Lương Sỹ Khánh     | Recursive Chunking    |                      |           |          |
+| Lương Sỹ Khánh     | Recursive (500)       | **6/10**              | Giữ trọn mục quy định nên 3/5 câu đạt top-1 kèm đủ số liệu (40.000 Xu, 5MB/100MB, Shop Voucher); chunk đều (avg 396/500), không có mảnh vụn. | Bảng bị crawl thành text phẳng thì cắt ở `\n\n` sinh chunk toàn số liệu mất tiêu đề cột — câu 5 vì vậy rơi xuống hạng 15/107. Câu multi-hop (câu 1) không ăn được vì 2 chunk cùng một tài liệu chiếm hết top-3. |
 | Đào Quang Thái Anh | Semantic Chunking     |                      |           |          |
 
 
