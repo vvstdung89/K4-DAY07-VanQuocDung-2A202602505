@@ -109,7 +109,7 @@ chunks = chunker.chunk(body)  # body = phần markdown sau front matter
 **Thành viên 2 — [Nguyễn Đức Thịnh]**
 
 - **Loại chiến lược:** Sentence-Based Chunking (`SentenceChunker`, built-in, không custom).
-- **Mô tả &amp; lý do chọn cho chủ đề này:** Tách văn bản bằng `re.split(r"(?<=[.!?])\s+", text)` (giữ nguyên dấu câu) rồi gom `max_sentences_per_chunk` câu thành một chunk, mỗi chunk là một đơn vị trọn câu để giữ ngữ nghĩa. Số liệu baseline cho thấy điểm yếu với dữ liệu Shopee: các bài viết theo dạng tiêu đề/bước không có dấu chấm cuối dòng nên chunk to và không đều (xem phân tích ở trên). *(Phần lý do chọn ban đầu cần thành viên tự viết lại theo ý của mình.)*
+- **Mô tả &amp; lý do chọn cho chủ đề này:** Tách văn bản bằng `re.split(r"(?<=[.!?])\s+", text)` (giữ nguyên dấu câu) rồi gom `max_sentences_per_chunk` câu thành một chunk, mỗi chunk là một đơn vị trọn câu để giữ ngữ nghĩa. Số liệu baseline cho thấy điểm yếu với dữ liệu Shopee: các bài viết theo dạng tiêu đề/bước không có dấu chấm cuối dòng nên chunk to và không đều (xem phân tích ở trên). Làm baseline để so sánh retrieval với FixedSize/Recursive/... của thành viên khác là công bằng. 
 - **Code snippet (nếu custom):** không có, dùng `SentenceChunker` trong `src/chunking.py`.
 
 **Thành viên 3 — [Tên]**
